@@ -22,7 +22,8 @@ class AuthRepo
         }
         $user = User::create(array_merge(
             $validator->validated(),
-            ['password' => bcrypt($request->password)]
+            ['password' => bcrypt($request->password)],
+            event(new Registered($user),
         ));
         return response()->json([
             'message' => 'User succefully created',
