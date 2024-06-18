@@ -22,10 +22,17 @@ Route::post('register', [AuthController::class, 'register']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    //task start
+
+    // Task routes
     Route::apiResource('task', TaskController::class);
     Route::apiResource('category', CategoryController::class);
-});
+
+    // Email verification routes
+    Route::get('email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return response()->json(['message' => 'Email verified successfully.']);
+    })->middleware(['signed'])->name('verification.verify');
+
 
 
 //Route::put('category/{id}', [AuthController::class, 'update']);
