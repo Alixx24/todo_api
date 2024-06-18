@@ -26,8 +26,12 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout']);
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    //task start
+    Route::apiResource('task', TaskController::class);
+    Route::apiResource('category', CategoryController::class);
+});
 
-//task start
-Route::apiResource('task', TaskController::class);
-Route::apiResource('category', CategoryController::class);
-Route::put('category/{id}', [AuthController::class, 'update']);
+
+//Route::put('category/{id}', [AuthController::class, 'update']);
